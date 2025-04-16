@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
+import com.users.app.repository.UserRepository;
+import com.users.app.service.dto.UserInfoDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +29,7 @@ public class TokenProvider {
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
+    private final UserRepository userRepository;
 
     private Key key;
 
@@ -36,8 +39,9 @@ public class TokenProvider {
 
     private final JHipsterProperties jHipsterProperties;
 
-    public TokenProvider(JHipsterProperties jHipsterProperties) {
+    public TokenProvider(JHipsterProperties jHipsterProperties, UserRepository userRepository) {
         this.jHipsterProperties = jHipsterProperties;
+        this.userRepository = userRepository;
     }
 
     @PostConstruct
@@ -64,7 +68,20 @@ public class TokenProvider {
         String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
-
+        Optional<com.users.app.domain.User> user = userRepository.findOneByLogin(authentication.getName());
+        UserInfoDetail userInfoDetail = new UserInfoDetail();
+        if (user.isPresent()) {
+            userInfoDetail.setId(user.get().getId());
+            userInfoDetail.setLogin(user.get().getLogin());
+            userInfoDetail.setName(user.get().getFirstName() + " " + user.get().getLastName());
+            userInfoDetail.setImageUrl(user.get().getImageUrl());
+            userInfoDetail.setActivated(user.get().getActivated());
+            userInfoDetail.setLangKey(user.get().getLangKey());
+            userInfoDetail.setCreatedBy(user.get().getCreatedBy());
+            userInfoDetail.setCreatedDate(user.get().getCreatedDate());
+            userInfoDetail.setLastModifiedBy(user.get().getLastModifiedBy());
+            userInfoDetail.setLastModifiedDate(user.get().getLastModifiedDate());
+        }
         long now = (new Date()).getTime();
         Date validity;
         if (rememberMe) {
@@ -76,7 +93,9 @@ public class TokenProvider {
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
+            .claim("ui", userInfoDetail)
             .signWith(key, SignatureAlgorithm.HS512)
+            .setIssuedAt(new Date())
             .setExpiration(validity)
             .compact();
     }

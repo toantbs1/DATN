@@ -47,7 +47,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/DATN?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password:
+    password: Tavc2003@
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -60,7 +60,7 @@ spring:
     show-sql: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    contexts: dev
   mail:
     host: localhost
     port: 25
@@ -136,3 +136,10 @@ jhipster:
 # ===================================================================
 
 # application:
+location:
+  lat: 21.016371
+  lng: 105.784009
+  alt: 10
+time:
+  start: '08:30:00'
+  end: '17:30:00'

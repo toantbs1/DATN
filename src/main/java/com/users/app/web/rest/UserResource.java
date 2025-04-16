@@ -4,7 +4,9 @@ import com.users.app.config.Constants;
 import com.users.app.domain.User;
 import com.users.app.repository.UserRepository;
 import com.users.app.security.AuthoritiesConstants;
+import com.users.app.security.SecurityUtils;
 import com.users.app.service.MailService;
+import com.users.app.service.dto.UserInfoDetail;
 import org.springframework.data.domain.Sort;
 import java.util.Collections;
 import com.users.app.service.UserService;
@@ -150,7 +152,6 @@ public class UserResource {
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
         }
-
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);

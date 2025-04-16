@@ -50,6 +50,7 @@ public class CacheConfiguration {
             createCache(cm, com.users.app.domain.User.class.getName());
             createCache(cm, com.users.app.domain.Authority.class.getName());
             createCache(cm, com.users.app.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.users.app.domain.CheckInOut.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }

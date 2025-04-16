@@ -1,12 +1,20 @@
 package com.users.app.security;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.users.app.service.dto.UserInfoDetail;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Optional;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -82,4 +90,39 @@ public final class SecurityUtils {
             .map(GrantedAuthority::getAuthority);
     }
 
+    public static UserInfoDetail getInfoCurrentUserLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String payload = authentication.getCredentials().toString().split("\\.")[1];
+        String decodedPayload = new String(Base64.getUrlDecoder().decode(payload));
+        ObjectMapper objectMapper1 = new ObjectMapper();
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = objectMapper1.readValue(decodedPayload, new TypeReference<Map<String, Object>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        Object uiClaim = result.get("ui");
+        if (uiClaim instanceof Map) {
+            Map<String, Object> map = (Map<String, Object>) uiClaim;
+            UserInfoDetail userInfo = new UserInfoDetail();
+            userInfo.setId(map.get("id") == null ? null : Long.valueOf(map.get("id").toString()));
+            userInfo.setLogin(map.get("login") == null ? null : map.get("login").toString());
+            userInfo.setName(map.get("name") == null ? null : map.get("name").toString());
+            userInfo.setEmail(map.get("email") == null ? null : map.get("email").toString());
+            userInfo.setImageUrl(map.get("imageUrl") == null ? null : map.get("imageUrl").toString());
+            userInfo.setActivated(map.get("activated") != null && Boolean.parseBoolean(map.get("activated").toString()));
+            userInfo.setLangKey(map.get("langKey") == null ? null : map.get("langKey").toString());
+            userInfo.setCreatedBy(map.get("createdBy") == null ? null : map.get("createdBy").toString());
+            userInfo.setCreatedDate(map.get("createdDate") == null ? null : (Instant) map.get("createdDate"));
+            userInfo.setLastModifiedBy(map.get("lastModifiedBy") == null ? null : map.get("lastModifiedBy").toString());
+            userInfo.setLastModifiedDate(map.get("lastModifiedDate") == null ? null : (Instant) map.get("lastModifiedDate"));
+            String authorities = result.get("auth").toString();
+            if (authorities != null) {
+                userInfo.setAuthorities(Arrays.asList(authorities.split(",")));
+            }
+            return userInfo;
+        }
+        return null;
+    }
 }

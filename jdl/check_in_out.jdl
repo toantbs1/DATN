@@ -1,0 +1,22 @@
+entity CheckInOut {
+    checkInTime Instant
+    checkInLat BigDecimal
+    checkInLng BigDecimal
+
+    checkOutTime Instant
+    checkOutLat BigDecimal
+    checkOutLng BigDecimal
+
+    userId Long
+
+    createdDate Instant
+    createdBy String
+    lastModifiedDate Instant
+    lastModifiedBy String
+}
+
+paginate * with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl
