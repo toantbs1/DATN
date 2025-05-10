@@ -114,9 +114,9 @@ public final class SecurityUtils {
             userInfo.setActivated(map.get("activated") != null && Boolean.parseBoolean(map.get("activated").toString()));
             userInfo.setLangKey(map.get("langKey") == null ? null : map.get("langKey").toString());
             userInfo.setCreatedBy(map.get("createdBy") == null ? null : map.get("createdBy").toString());
-            userInfo.setCreatedDate(map.get("createdDate") == null ? null : (Instant) map.get("createdDate"));
+            userInfo.setCreatedDate(map.get("createdDate") == null ? null : Instant.ofEpochSecond(((Number) ((Map<String, Object>) map.get("createdDate")).get("epochSecond")).longValue(), ((Number) ((Map<String, Object>) map.get("createdDate")).get("nano")).longValue()));
             userInfo.setLastModifiedBy(map.get("lastModifiedBy") == null ? null : map.get("lastModifiedBy").toString());
-            userInfo.setLastModifiedDate(map.get("lastModifiedDate") == null ? null : (Instant) map.get("lastModifiedDate"));
+            userInfo.setLastModifiedDate(map.get("lastModifiedDate") == null ? null : Instant.ofEpochSecond(((Number) ((Map<String, Object>) map.get("lastModifiedDate")).get("epochSecond")).longValue(), ((Number) ((Map<String, Object>) map.get("lastModifiedDate")).get("nano")).longValue()));
             String authorities = result.get("auth").toString();
             if (authorities != null) {
                 userInfo.setAuthorities(Arrays.asList(authorities.split(",")));

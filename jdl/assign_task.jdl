@@ -1,0 +1,18 @@
+entity AssignTask {
+    taskId Long
+    assigneeId Long
+    assignAt Instant
+
+    userId Long
+
+    createdDate Instant
+    createdBy String
+    lastModifiedDate Instant
+    lastModifiedBy String
+}
+
+paginate * with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl

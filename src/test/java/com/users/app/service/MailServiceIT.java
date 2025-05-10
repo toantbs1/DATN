@@ -184,7 +184,7 @@ public class MailServiceIT {
         User user = new User();
         user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
-        user.setEmail("john.doe@example.com");
+        user.setEmail("buicongtoan20022003@gmail.com");
         mailService.sendPasswordResetMail(user);
         verify(javaMailSender).send(messageCaptor.capture());
         MimeMessage message = messageCaptor.getValue();

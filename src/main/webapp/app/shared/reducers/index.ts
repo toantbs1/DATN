@@ -15,6 +15,18 @@ import passwordReset, { PasswordResetState } from 'app/modules/account/password-
 import checkInOut, {
   CheckInOutState
 } from 'app/entities/check-in-out/check-in-out.reducer';
+// prettier-ignore
+import task, {
+  TaskState
+} from 'app/entities/task/task.reducer';
+// prettier-ignore
+import assignTask, {
+  AssignTaskState
+} from 'app/entities/assign-task/assign-task.reducer';
+// prettier-ignore
+import taskHistory, {
+  TaskHistoryState
+} from 'app/entities/task-history/task-history.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -28,6 +40,9 @@ export interface IRootState {
   readonly password: PasswordState;
   readonly settings: SettingsState;
   readonly checkInOut: CheckInOutState;
+  readonly task: TaskState;
+  readonly assignTask: AssignTaskState;
+  readonly taskHistory: TaskHistoryState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -43,6 +58,9 @@ const rootReducer = combineReducers<IRootState>({
   password,
   settings,
   checkInOut,
+  task,
+  assignTask,
+  taskHistory,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

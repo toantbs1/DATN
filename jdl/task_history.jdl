@@ -1,0 +1,18 @@
+entity TaskHistory {
+    taskId Long
+    actionCode String
+    param String
+
+    userId Long
+
+    createdDate Instant
+    createdBy String
+    lastModifiedDate Instant
+    lastModifiedBy String
+}
+
+paginate * with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl
