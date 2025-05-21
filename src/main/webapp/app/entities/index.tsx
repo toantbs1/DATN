@@ -8,6 +8,7 @@ import CheckInOut from './check-in-out';
 import Task from './task';
 import AssignTask from './assign-task';
 import TaskHistory from './task-history';
+import LeaveRequest from './leave-request';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -18,6 +19,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}task`} component={Task} />
       <ErrorBoundaryRoute path={`${match.url}assign-task`} component={AssignTask} />
       <ErrorBoundaryRoute path={`${match.url}task-history`} component={TaskHistory} />
+      <ErrorBoundaryRoute path={`${match.url}leave-request`} component={LeaveRequest} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
     </Switch>
   </div>

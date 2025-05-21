@@ -27,6 +27,10 @@ import assignTask, {
 import taskHistory, {
   TaskHistoryState
 } from 'app/entities/task-history/task-history.reducer';
+// prettier-ignore
+import leaveRequest, {
+  LeaveRequestState
+} from 'app/entities/leave-request/leave-request.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -43,6 +47,7 @@ export interface IRootState {
   readonly task: TaskState;
   readonly assignTask: AssignTaskState;
   readonly taskHistory: TaskHistoryState;
+  readonly leaveRequest: LeaveRequestState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -61,6 +66,7 @@ const rootReducer = combineReducers<IRootState>({
   task,
   assignTask,
   taskHistory,
+  leaveRequest,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

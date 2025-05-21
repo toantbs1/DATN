@@ -54,6 +54,7 @@ public class CacheConfiguration {
             createCache(cm, com.users.app.domain.Task.class.getName());
             createCache(cm, com.users.app.domain.AssignTask.class.getName());
             createCache(cm, com.users.app.domain.TaskHistory.class.getName());
+            createCache(cm, com.users.app.domain.LeaveRequest.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }
